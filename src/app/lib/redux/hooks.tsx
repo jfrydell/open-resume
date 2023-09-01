@@ -37,24 +37,14 @@ export const useSetInitialStore = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const state = loadStateFromLocalStorage();
+    console.log("state " + JSON.stringify(state));
     if (!state) return;
-    const one_state = state.resumes[state.current];
-    if (one_state.resume) {
-      // We merge the initial state with the stored state to ensure
-      // backward compatibility, since new fields might be added to
-      // the initial state over time.
-      const mergedResumeState = deepMerge(
-        initialResumeState,
-        one_state.resume
-      ) as Resume;
-      dispatch(setResume(mergedResumeState));
+    // For each resume in state, merge with initial state to ensure backward compatibility,
+    // adding any new fields from the initial state to the stored state.
+    for (let i = 0; i < state.resumes.length; i++) {
+      state.resumes[i] = deepMerge(initialResumeState, state.resumes[i]);
     }
-    if (one_state.settings) {
-      const mergedSettingsState = deepMerge(
-        initialSettings,
-        one_state.settings
-      ) as Settings;
-      dispatch(setSettings(mergedSettingsState));
-    }
+    // Set all state
+    dispatch({ type: "resumeList/setAll", payload: state });
   }, []);
 };

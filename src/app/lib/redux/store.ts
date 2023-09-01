@@ -2,6 +2,7 @@ import {  configureStore } from "@reduxjs/toolkit";
 import { OneState } from "./types";
 import resumeSlice, { initialResumeState } from "./resumeSlice";
 import settingsSlice, { initialSettings } from "./settingsSlice";
+import { deepClone } from "lib/deep-clone";
 
 export const initialOneState: OneState = {
   resume: initialResumeState,
@@ -39,6 +40,34 @@ export const store = configureStore({
           return oneState;
         }),
       };
+    } else if (action.type.startsWith("resumeList/")) {
+      switch (action.type) {
+        case "resumeList/addResume":
+          return {
+            resumes: [...state.resumes, deepClone(state.resumes[state.current])],
+            current: state.resumes.length,
+          }
+        case "resumeList/selectResume":
+          console.log("selectResume: ", action.payload);
+          return {
+            ...state,
+            current: action.payload,
+          }
+        case "resumeList/deleteResume":
+          if (state.resumes.length === 1) {
+            return state;
+          }
+          return {
+            resumes: state.resumes.filter((oneState: OneState, idx: Number) => {
+              return idx !== state.current;
+            }),
+            current: state.current - 1,
+          }
+        case "resumeList/setAll":
+          return action.payload;
+        default:
+          console.error("Unrecognized action: ", action);
+      }
     } else {
       // Error, unrecognized action
       console.error("Unrecognized action: ", action);

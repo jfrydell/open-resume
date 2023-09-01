@@ -25,9 +25,6 @@ const formTypeToComponent: { [type in ShowForm]: () => JSX.Element } = {
 };
 
 export const ResumeForm = () => {
-  useSetInitialStore();
-  useSaveStateToLocalStorageOnChange();
-
   const formsOrder = useAppSelector(selectFormsOrder);
   const [isHover, setIsHover] = useState(false);
 
