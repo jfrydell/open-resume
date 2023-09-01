@@ -56,6 +56,7 @@ export interface Resume {
 export type ResumeKey = keyof Resume;
 
 export interface OneState {
+  title: string;
   resume: Resume;
   settings: Settings;
 }

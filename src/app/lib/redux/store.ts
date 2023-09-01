@@ -5,6 +5,7 @@ import settingsSlice, { initialSettings } from "./settingsSlice";
 import { deepClone } from "lib/deep-clone";
 
 export const initialOneState: OneState = {
+  title: "Resume",
   resume: initialResumeState,
   settings: initialSettings,
 };
@@ -43,8 +44,11 @@ export const store = configureStore({
     } else if (action.type.startsWith("resumeList/")) {
       switch (action.type) {
         case "resumeList/addResume":
+          let new_resume = deepClone(state.resumes[state.current]);
+          new_resume.title += " (copy)";
+          console.log(new_resume);
           return {
-            resumes: [...state.resumes, deepClone(state.resumes[state.current])],
+            resumes: [...state.resumes, new_resume],
             current: state.resumes.length,
           }
         case "resumeList/selectResume":
@@ -52,6 +56,19 @@ export const store = configureStore({
           return {
             ...state,
             current: action.payload,
+          }
+        case "resumeList/rename":
+          return {
+            ...state,
+            resumes: state.resumes.map((oneState: OneState, idx: Number) => {
+              if (idx === state.current) {
+                return {
+                  ...oneState,
+                  title: action.payload,
+                };
+              }
+              return oneState;
+            }),
           }
         case "resumeList/deleteResume":
           if (state.resumes.length === 1) {
@@ -61,7 +78,7 @@ export const store = configureStore({
             resumes: state.resumes.filter((oneState: OneState, idx: Number) => {
               return idx !== state.current;
             }),
-            current: state.current - 1,
+            current: Math.max(state.current - 1, 0),
           }
         case "resumeList/setAll":
           return action.payload;
