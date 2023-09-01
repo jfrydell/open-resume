@@ -136,26 +136,25 @@ export const {
   setSettings,
 } = settingsSlice.actions;
 
-export const selectSettings = (state: RootState) => state.settings;
-export const selectThemeColor = (state: RootState) => state.settings.themeColor;
+export const selectSettings = (state: RootState) => state.resumes[state.current].settings;
+export const selectThemeColor = (state: RootState) => state.resumes[state.current].settings.themeColor;
 
-export const selectFormToShow = (state: RootState) => state.settings.formToShow;
+export const selectFormToShow = (state: RootState) => state.resumes[state.current].settings.formToShow;
 export const selectShowByForm = (form: ShowForm) => (state: RootState) =>
-  state.settings.formToShow[form];
+  state.resumes[state.current].settings.formToShow[form];
 
-export const selectFormToHeading = (state: RootState) =>
-  state.settings.formToHeading;
+export const selectFormToHeading = (state: RootState) => state.resumes[state.current].settings.formToHeading;
 export const selectHeadingByForm = (form: ShowForm) => (state: RootState) =>
-  state.settings.formToHeading[form];
+  state.resumes[state.current].settings.formToHeading[form];
 
-export const selectFormsOrder = (state: RootState) => state.settings.formsOrder;
+export const selectFormsOrder = (state: RootState) => state.resumes[state.current].settings.formsOrder;
 export const selectIsFirstForm = (form: ShowForm) => (state: RootState) =>
-  state.settings.formsOrder[0] === form;
+  state.resumes[state.current].settings.formsOrder[0] === form;
 export const selectIsLastForm = (form: ShowForm) => (state: RootState) =>
-  state.settings.formsOrder[state.settings.formsOrder.length - 1] === form;
+  state.resumes[state.current].settings.formsOrder[state.resumes[state.current].settings.formsOrder.length - 1] === form;
 
 export const selectShowBulletPoints =
   (form: FormWithBulletPoints) => (state: RootState) =>
-    state.settings.showBulletPoints[form];
+    state.resumes[state.current].settings.showBulletPoints[form];
 
 export default settingsSlice.reducer;

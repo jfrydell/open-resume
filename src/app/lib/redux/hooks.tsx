@@ -38,20 +38,21 @@ export const useSetInitialStore = () => {
   useEffect(() => {
     const state = loadStateFromLocalStorage();
     if (!state) return;
-    if (state.resume) {
+    const one_state = state.resumes[state.current];
+    if (one_state.resume) {
       // We merge the initial state with the stored state to ensure
       // backward compatibility, since new fields might be added to
       // the initial state over time.
       const mergedResumeState = deepMerge(
         initialResumeState,
-        state.resume
+        one_state.resume
       ) as Resume;
       dispatch(setResume(mergedResumeState));
     }
-    if (state.settings) {
+    if (one_state.settings) {
       const mergedSettingsState = deepMerge(
         initialSettings,
-        state.settings
+        one_state.settings
       ) as Settings;
       dispatch(setSettings(mergedSettingsState));
     }

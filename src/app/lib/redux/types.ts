@@ -1,3 +1,5 @@
+import { Settings } from "./settingsSlice";
+
 export interface ResumeProfile {
   name: string;
   email: string;
@@ -52,3 +54,9 @@ export interface Resume {
 }
 
 export type ResumeKey = keyof Resume;
+
+export interface OneState {
+  resume: Resume;
+  settings: Settings;
+}
+

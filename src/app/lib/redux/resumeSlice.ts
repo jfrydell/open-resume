@@ -213,13 +213,13 @@ export const {
   setResume,
 } = resumeSlice.actions;
 
-export const selectResume = (state: RootState) => state.resume;
-export const selectProfile = (state: RootState) => state.resume.profile;
+export const selectResume = (state: RootState) => state.resumes[state.current].resume;
+export const selectProfile = (state: RootState) => state.resumes[state.current].resume.profile;
 export const selectWorkExperiences = (state: RootState) =>
-  state.resume.workExperiences;
-export const selectEducations = (state: RootState) => state.resume.educations;
-export const selectProjects = (state: RootState) => state.resume.projects;
-export const selectSkills = (state: RootState) => state.resume.skills;
-export const selectCustom = (state: RootState) => state.resume.custom;
+  state.resumes[state.current].resume.workExperiences;
+export const selectEducations = (state: RootState) => state.resumes[state.current].resume.educations;
+export const selectProjects = (state: RootState) => state.resumes[state.current].resume.projects;
+export const selectSkills = (state: RootState) => state.resumes[state.current].resume.skills;
+export const selectCustom = (state: RootState) => state.resumes[state.current].resume.custom;
 
 export default resumeSlice.reducer;
