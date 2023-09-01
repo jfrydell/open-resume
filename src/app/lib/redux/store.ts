@@ -46,18 +46,19 @@ export const store = configureStore({
         case "resumeList/addResume":
           let new_resume = deepClone(state.resumes[state.current]);
           new_resume.title += " (copy)";
-          console.log(new_resume);
           return {
             resumes: [...state.resumes, new_resume],
             current: state.resumes.length,
           }
         case "resumeList/selectResume":
-          console.log("selectResume: ", action.payload);
           return {
             ...state,
             current: action.payload,
           }
         case "resumeList/rename":
+          if (action.payload === "") {
+            return state;
+          }
           return {
             ...state,
             resumes: state.resumes.map((oneState: OneState, idx: Number) => {

@@ -22,18 +22,20 @@ export const ResumeList = () => {
     dispatch({ type: "resumeList/addResume" });
   };
   const deleteResume = () => {
-    dispatch({ type: "resumeList/deleteResume" });
+    if (confirm("Are you sure you want to delete this resume?")) {
+      dispatch({ type: "resumeList/deleteResume" });
+    }
   };
 
   return (
-    <section className="pt-3 pl-5 space-y-2">
-      <div className="flex flex-row items-center">
-        <h2 className="font-bold">Resumes:</h2>
+    <section className="bg-white p-2 space-y-2 h-[var(--resume-selection-height)]">
+      <div className="flex flex-row items-center overflow-scroll text-sm">
+        <h2 className="font-bold text-md">Resumes:</h2>
         {resumes.map((resume, i) => {
           if (i == current_resume_i) {
-            return <button key={i} className="text-sky-600 underline font-bold ml-2">{resume.title}</button>;
+            return <button key={i} className="text-sky-600 underline font-bold ml-2 flex-shrink-0">{resume.title}</button>;
           }
-          return <button key={i} className="ml-2 text-sky-400 font-bold" onClick={selectResume(i)}>{resume.title}</button>;
+          return <button key={i} className="ml-2 text-sky-400 font-bold flex-shrink-0" onClick={selectResume(i)}>{resume.title}</button>;
         })}
       </div>
       <div className="flex flex-row items-center text-sm gap-2">
