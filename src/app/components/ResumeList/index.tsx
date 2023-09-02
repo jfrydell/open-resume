@@ -1,10 +1,12 @@
 "use client";
+import { ResumeRewriter, resumeToText } from "components/ResumeRewriter";
 import {
   useAppDispatch,
   useAppSelector,
   useSaveStateToLocalStorageOnChange,
   useSetInitialStore,
 } from "lib/redux/hooks";
+import { useState } from "react";
 
 export const ResumeList = () => {
   useSetInitialStore();
@@ -27,6 +29,14 @@ export const ResumeList = () => {
     }
   };
 
+  // Rewrite modal logic
+  let [rewriteModalOpen, setRewriteModalOpen] = useState(false);
+  let [rewriteModalText, setRewriteModalText] = useState("");
+  const rewriteResume = () => {
+    setRewriteModalOpen(true);
+    setRewriteModalText(resumeToText(resumes[current_resume_i]));
+  };
+
   return (
     <section className="bg-white p-2 space-y-2 h-[var(--resume-selection-height)]">
       <div className="flex flex-row items-center overflow-scroll text-sm">
@@ -41,9 +51,11 @@ export const ResumeList = () => {
       <div className="flex flex-row items-center text-sm gap-2">
         <h2 className="font-bold text-md">This Resume:</h2>
         <input className="border border-gray-300 rounded px-2 py-1" type="text" value={resumes[current_resume_i].title} onChange={(e) => dispatch({ type: "resumeList/rename", payload: e.target.value })} />
+        <button className="bg-sky-400 text-white font-bold px-3 py-1 rounded" onClick={rewriteResume}>AI Rewrite</button>
         <button className="bg-sky-400 text-white font-bold px-3 py-1 rounded" onClick={appendResume}>Clone</button>
         <button className="bg-sky-400 text-white font-bold px-3 py-1 rounded" onClick={deleteResume}>Delete</button>
       </div>
+      {rewriteModalOpen && <ResumeRewriter text={rewriteModalText} set_text={setRewriteModalText} set_open={setRewriteModalOpen} />}
     </section>
   );
 };

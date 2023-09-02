@@ -44,6 +44,13 @@ export const store = configureStore({
     } else if (action.type.startsWith("resumeList/")) {
       switch (action.type) {
         case "resumeList/addResume":
+          // The new resume is the payload (if present) or otherwise a copy of the current resume
+          if (action.payload) {
+            return {
+              resumes: [...state.resumes, action.payload],
+              current: state.resumes.length,
+            }
+          }
           let new_resume = deepClone(state.resumes[state.current]);
           new_resume.title += " (copy)";
           return {

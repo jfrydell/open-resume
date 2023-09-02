@@ -27,6 +27,9 @@ export const useSetDefaultScale = ({
       const topNavBarHeightRem = parseFloat(
         CSS_VARIABLES["--top-nav-bar-height"]
       );
+      const resumeSelectHeight = parseFloat(
+        CSS_VARIABLES["--resume-selection-height"]
+      );
       const resumeControlBarHeight = parseFloat(
         CSS_VARIABLES["--resume-control-bar-height"]
       );
@@ -35,6 +38,7 @@ export const useSetDefaultScale = ({
       const defaultResumeHeightRem =
         screenHeightRem -
         topNavBarHeightRem -
+        resumeSelectHeight -
         resumeControlBarHeight -
         topAndBottomResumePadding;
       const resumeHeightPx = defaultResumeHeightRem * PX_PER_REM;
